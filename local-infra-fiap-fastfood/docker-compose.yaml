@@ -1,0 +1,33 @@
+version: "3.9"
+
+networks:
+  fastfood-fiap-network:
+    driver: bridge
+
+services:
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_USERNAME: admin
+      MONGO_INITDB_PASSWORD: password
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./data/mongo:/data/db
+    networks:
+      - fastfood-fiap-network
+
+  fastfood-fiap-api:
+    build:
+      context: ..
+      dockerfile: Dockerfile-compose
+    command: ["java", "-jar", "build/libs/fastfood-0.0.1-SNAPSHOT.jar"]
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: mongo
+    depends_on:
+      - mongo
+    networks:
+      - fastfood-fiap-network
