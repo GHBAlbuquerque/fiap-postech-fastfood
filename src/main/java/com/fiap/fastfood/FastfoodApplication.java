@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 @EnableMongoAuditing
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "Fast Food FIAP", description = "Projeto de um sistema para lanchonete realizado para a Fase 1 da Pós-Graduação de Arquitetura de Sistemas da FIAP", version = "v1"))
+@OpenAPIDefinition(info = @Info(title = "Fast Food FIAP", description = "Projeto de um sistema para lanchonete realizado para a Pós-Graduação de Arquitetura de Sistemas da FIAP", version = "v1"))
 public class FastfoodApplication {
 
     public static void main(String[] args) {
