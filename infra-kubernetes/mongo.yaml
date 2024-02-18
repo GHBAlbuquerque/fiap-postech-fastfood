@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mongodb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:latest
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_USERNAME
+              value: admin
+            - name: MONGO_INITDB_PASSWORD
+              value: password
+          volumeMounts:
+            - name: mongodb-scripts
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
+            - name: mongodb-configmap
+              mountPath: /config
+              readOnly: true
+            - name: mongodb-data
+              mountPath: /data/db
+      volumes:
+        - name: mongodb-scripts
+          configMap:
+            name: mongodb-configmap
+            items:
+              - key: mongo-init.js
+                path: mongo-init.js
+        - name: mongodb-configmap
+          configMap:
+            name: mongodb-configmap
+            items:
+              - key: mongo.conf
+                path: mongo.conf
+        - name: mongodb-data
+          persistentVolumeClaim:
+            claimName: mongodb-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+spec:
+  type: ClusterIP
+  selector:
+    app: mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+
+
