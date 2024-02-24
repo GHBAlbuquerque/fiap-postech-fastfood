@@ -10,4 +10,4 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: mongodb-storageclass
   hostPath:
-    path: /Users/giovanna_albuquerque/datatemp
+    path: /run/desktop/mnt/host/c/Users/Giovanna/datatemp
