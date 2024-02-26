@@ -27,6 +27,16 @@ spec:
       storage: 1Gi
 ---
 apiVersion: v1
+kind: Secret
+metadata:
+  name: mongodb-secret
+  namespace: fiap-pos-tech
+type: Opaque
+data:
+  MONGO_INITDB_USERNAME: YWRtaW4K
+  MONGO_INITDB_PASSWORD: cGFzc3dvcmQK
+---
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mongodb-configmap
@@ -81,10 +91,13 @@ spec:
             - containerPort: 27017
           env:
             - name: MONGO_INITDB_USERNAME
-              value: admin
+              value: /etc/mongodb-secret/MONGO_INITDB_USERNAME
             - name: MONGO_INITDB_PASSWORD
-              value: password
+              value: /etc/mongodb-secret/MONGO_INITDB_PASSWORD
           volumeMounts:
+            - name: mongodb-secret
+              mountPath: /etc/mongodb-secret
+              readOnly: true
             - name: mongodb-scripts
               mountPath: /docker-entrypoint-initdb.d
               readOnly: true
@@ -94,6 +107,16 @@ spec:
             - name: mongodb-data
               mountPath: /data/db
       volumes:
+        - name: mongodb-secret
+          secret:
+            secretName: mongodb-secret
+            items:
+              - key: MONGO_INITDB_USERNAME
+                path: MONGO_INITDB_USERNAME
+                mode: 0444
+              - key: MONGO_INITDB_PASSWORD
+                path: MONGO_INITDB_PASSWORD
+                mode: 0444
         - name: mongodb-scripts
           configMap:
             name: mongodb-configmap

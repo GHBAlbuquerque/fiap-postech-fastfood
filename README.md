@@ -126,8 +126,9 @@ Faça o download ou clone este projeto e abra em uma IDE (preferencialmente Inte
     kubectl delete service fastfood-fiap-service -n fiap-pos-tech
     kubectl delete deployment  fastfood-fiap-deployment -n fiap-pos-tech
     kubectl delete service mongodb-service -n fiap-pos-tech
-    kubectl delete deployment  mongodb-deployment -n fiap-pos-tech
-    kubectl delete statefulset  mongo-sfs -n fiap-pos-tech
+    kubectl delete statefulset mongo-sfs -n fiap-pos-tech
+    kubectl delete configmap mongodb-configmap -n fiap-pos-tech
+    kubectl delete secret mongodb-secret -n fiap-pos-tech
     kubectl delete pvc mongodb-pvc -n fiap-pos-tech
     kubectl delete pv mongodb-pv
     ```
