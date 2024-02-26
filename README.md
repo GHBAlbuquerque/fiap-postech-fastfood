@@ -115,7 +115,7 @@ Faça o download ou clone este projeto e abra em uma IDE (preferencialmente Inte
 3. Você pode visualizar os pods rodando no minikube com o comando ```kubectl get pods```
 4. Em outro terminal, navegue para a pasta infra-kubernetes deste projeto
 5. Crie um namespace para conter os serviços do projeto, por exemplo : ```kubectl create namespace fiap-pos-tech```
-6. Altere o  "path" na linha 13 do arquivo "mongo-All.yaml" para um path da sua máquina
+6. Altere o  "path" na linha 13 do arquivo "mongo-All.yaml" para um path da sua máquina, se necessário
 7. Execute primeiramente o comando ```kubectl apply -f mongo-All.yaml``` para subir os componentes do pod do Mongo
 8. Execute o comando ```kubectl apply -f manifest.yaml``` para subir os componentes do pod da aplicação
 9. No PowerShell, execute o comando ```minikube tunnel``` para expor externamente a service criada para a aplicação
