@@ -10,7 +10,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: mongodb-storageclass
   hostPath:
-    path: /run/desktop/mnt/host/c/Users/Giovanna/datatemp
+    path: "/c/Users/Giovanna/datatemp"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -64,19 +64,19 @@ metadata:
   name: mongo-sfs
   namespace: fiap-pos-tech
 spec:
-  serviceName: mongo
+  serviceName: mongodb-service
   replicas: 1
   selector:
     matchLabels:
-      app: mongo
+      app: mongodb
   template:
     metadata:
       labels:
-        app: mongo
+        app: mongodb
     spec:
       containers:
         - name: mongo
-          image: mongo:7
+          image: mongo:latest
           ports:
             - containerPort: 27017
           env:
