@@ -120,7 +120,17 @@ Faça o download ou clone este projeto e abra em uma IDE (preferencialmente Inte
 8. Execute o comando ```kubectl apply -f manifest.yaml``` para subir os componentes do pod da aplicação
 9. No PowerShell, execute o comando ```minikube tunnel``` para expor externamente a service criada para a aplicação
 10. Para chamar o swagger da aplicação e ver os endpoints disponíveis, acesse ```http://localhost:80/swagger-ui/index.html```
-
+11. Caso queira remover os serviços em execução, execute os seguintes comandos:
+    ```
+    kubectl delete service fastfood-fiap-deployment -n fiap-pos-tech
+    kubectl delete service fastfood-fiap-service -n fiap-pos-tech
+    kubectl delete deployment  fastfood-fiap-deployment -n fiap-pos-tech
+    kubectl delete service mongodb-service -n fiap-pos-tech
+    kubectl delete deployment  mongodb-deployment -n fiap-pos-tech
+    kubectl delete statefulset  mongo-sfs -n fiap-pos-tech
+    kubectl delete pvc mongodb-pvc -n fiap-pos-tech
+    kubectl delete pv mongodb-pv
+    ```
 
 ## Versioning
 
