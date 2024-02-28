@@ -1,0 +1,150 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongodb-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: mongodb-storageclass
+  hostPath:
+    path: "/c/Users/%userprofile%/datatemp"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongodb-pvc
+  namespace: fiap-pos-tech
+spec:
+  storageClassName: mongodb-storageclass
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongodb-secret
+  namespace: fiap-pos-tech
+type: Opaque
+data:
+  MONGO_INITDB_USERNAME: YWRtaW4K
+  MONGO_INITDB_PASSWORD: cGFzc3dvcmQK
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongodb-configmap
+  namespace: fiap-pos-tech
+data:
+  mongo.conf: |
+    storage:
+      dbPath: /data/db
+  mongo-init.js: |
+    db = db.getSiblingDB('db-fiap-fastfood');
+
+    db.createUser(
+        {
+            user: "admin",
+            pwd: "password",
+            roles: [
+                {
+                    role: "readWrite",
+                    db: "db-fiap-fastfood"
+                }
+            ]
+        }
+    )
+
+    db.createCollection("Attendant");
+    db.createCollection("Client");
+    db.createCollection("Order");
+    db.createCollection("Product");
+    db.createCollection("Payment");
+    db.createCollection("Checkout");
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo-sfs
+  namespace: fiap-pos-tech
+spec:
+  serviceName: mongodb-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:latest
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_USERNAME
+              value: /etc/mongodb-secret/MONGO_INITDB_USERNAME
+            - name: MONGO_INITDB_PASSWORD
+              value: /etc/mongodb-secret/MONGO_INITDB_PASSWORD
+          volumeMounts:
+            - name: mongodb-secret
+              mountPath: /etc/mongodb-secret
+              readOnly: true
+            - name: mongodb-scripts
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
+            - name: mongodb-configmap
+              mountPath: /config
+              readOnly: true
+            - name: mongodb-data
+              mountPath: /data/db
+      volumes:
+        - name: mongodb-secret
+          secret:
+            secretName: mongodb-secret
+            items:
+              - key: MONGO_INITDB_USERNAME
+                path: MONGO_INITDB_USERNAME
+                mode: 0444
+              - key: MONGO_INITDB_PASSWORD
+                path: MONGO_INITDB_PASSWORD
+                mode: 0444
+        - name: mongodb-scripts
+          configMap:
+            name: mongodb-configmap
+            items:
+              - key: mongo-init.js
+                path: mongo-init.js
+        - name: mongodb-configmap
+          configMap:
+            name: mongodb-configmap
+            items:
+              - key: mongo.conf
+                path: mongo.conf
+        - name: mongodb-data
+          persistentVolumeClaim:
+            claimName: mongodb-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+  namespace: fiap-pos-tech
+spec:
+  type: ClusterIP
+  selector:
+    app: mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+
+
