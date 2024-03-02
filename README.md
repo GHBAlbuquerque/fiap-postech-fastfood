@@ -44,7 +44,14 @@ Entenda e defina -> Construa -> Teste -> Disponibilize.
 
 ### 📐 Desenho de Solução (Arquitetura)
 
-TBD
+Solução arquitetônica proposta:
+
+![](misc/fiap-fastfood-architecture-kubernetes-kubernetes.drawio.svg)
+
+Solução arquitetônica estudada (Cloud AWS):
+
+![](misc/fiap-fastfood-architecture-kubernetes-eks.drawio.svg)
+
 
 ### 💻 Tecnologias
 
