@@ -87,6 +87,13 @@ spec:
       containers:
         - name: mongo
           image: mongo:latest
+          resources:
+            requests:
+              cpu: "500m"  # Requisição de CPU inicial
+              memory: "512Mi"
+            limits:
+              cpu: "1"  # Limite de CPU
+              memory: "1Gi"
           ports:
             - containerPort: 27017
           env:
