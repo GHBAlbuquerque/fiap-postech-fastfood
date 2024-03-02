@@ -13,6 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateOrderRequest {
-
     private List<Item> items;
 }

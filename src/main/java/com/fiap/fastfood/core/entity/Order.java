@@ -25,6 +25,10 @@ public class Order {
 
     private LocalDateTime updatedAt;
 
+    private OrderStatus status;
+
+    private OrderPaymentStatus paymentStatus;
+
     public BigDecimal getTotalValue() {
         return items.stream()
                 .map(Item::getTotalItemValue)

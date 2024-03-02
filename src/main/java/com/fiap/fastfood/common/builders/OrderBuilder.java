@@ -16,6 +16,8 @@ public class OrderBuilder {
                 .updatedAt(order.getUpdatedAt())
                 .totalValue(order.getTotalValue())
                 .items(order.getItems())
+                .status(order.getStatus())
+                .paymentStatus(order.getPaymentStatus())
                 .build();
     }
 
@@ -31,6 +33,8 @@ public class OrderBuilder {
                 .createdAt(orm.getCreatedAt())
                 .updatedAt(orm.getUpdatedAt())
                 .totalValue(orm.getTotalValue())
+                .status(orm.getStatus())
+                .paymentStatus(orm.getPaymentStatus())
                 .items(
                         orm.getItems().stream().map(ItemBuilder::fromOrmToDomain).collect(Collectors.toList())
                 )
@@ -43,6 +47,8 @@ public class OrderBuilder {
                 .createdAt(order.getCreatedAt())
                 .updatedAt(order.getUpdatedAt())
                 .totalValue(order.getTotalValue())
+                .status(order.getStatus())
+                .paymentStatus(order.getPaymentStatus())
                 .items(
                         order.getItems().stream().map(ItemBuilder::fromDomainToOrm).collect(Collectors.toList())
                 )
