@@ -44,11 +44,11 @@ Entenda e defina -> Construa -> Teste -> Disponibilize.
 
 ### 📐 Desenho de Solução (Arquitetura)
 
-Solução arquitetônica proposta:
+Solução arquitetônica realizada:
 
 ![](misc/fiap-fastfood-architecture-kubernetes-kubernetes.drawio.svg)
 
-Solução arquitetônica estudada (Cloud AWS):
+Solução arquitetônica realizada (Cloud AWS):
 
 ![](misc/fiap-fastfood-architecture-kubernetes-eks.drawio.svg)
 
@@ -63,6 +63,8 @@ Tecnologias utilizadas:
 * MongoDB
 * Docker
 * Swagger
+* Cloud AWS
+* Kubernetes
 
 ### 👓 Serviços Utilizados
 
@@ -70,8 +72,16 @@ Tecnologias utilizadas:
 * Postman
 * Docker Desktop 
 * MongoDB Compass
+* k9s
+* Minikube
+* AWS CLI
 
-### 🎬 Getting started - Rodando com docker-compose
+
+## 🎬 Como executar este projeto?
+
+### 1) Rodando com Docker
+
+### 💿 Getting started - Rodando com docker-compose
 
 Faça o download ou clone este projeto. É preciso ter:
 
@@ -105,6 +115,9 @@ Faça o download ou clone este projeto e abra em uma IDE (preferencialmente Inte
 6. Abra a classe FastFoodApplication e execute a aplicação
 7. Para chamar os endpoints, você pode ver as rotas no link ```http://localhost:8080/swagger-ui/index.html```
 
+###
+### 2) Rodando com Kubernetes
+
 ### 💿 Getting started - Rodando em cluster kubernetes local
 
 Faça o download ou clone este projeto e abra em uma IDE (preferencialmente IntelliJ).
@@ -126,7 +139,7 @@ Faça o download ou clone este projeto e abra em uma IDE (preferencialmente Inte
 7. Altere o  "path" na linha 13 do arquivo "mongo-All.yaml" para um path da sua máquina, se necessário
 8. Execute primeiramente o comando ```kubectl apply -f mongo-All.yaml``` para subir os componentes do pod do Mongo
 9. Execute o comando ```kubectl apply -f manifest.yaml``` para subir os componentes do pod da aplicação
-10. Caso tenha o K9S intalado, pode verificar os pods sendo executados através do comando ```k9s``` no PowerShell
+10. (opcional) verifique os pods sendo executados através do comando ```k9s``` no PowerShell
 11. No PowerShell, execute o comando ```minikube tunnel``` para expor externamente a service criada para a aplicação
 12. Para chamar o swagger da aplicação e ver os endpoints disponíveis, acesse ```http://localhost:80/swagger-ui/index.html```
 13. Caso queira remover os serviços em execução, execute os seguintes comandos:
@@ -141,6 +154,38 @@ Faça o download ou clone este projeto e abra em uma IDE (preferencialmente Inte
     kubectl delete pvc mongodb-pvc -n fiap-pos-tech
     kubectl delete pv mongodb-pv
     ```
+
+
+### 💿 Getting started - Rodando em cluster EKS na Cloud AWS
+
+Faça o download ou clone este projeto e abra em uma IDE (preferencialmente IntelliJ).
+É preciso ter:
+
+    - Uma conta cadastrada na Cloud AWS
+    - AWS CLI
+    - Kubectl
+    - (opcional) K9s
+
+🚨 Passo-a-passo:
+
+1. Faça login na sua conta AWS 
+2. Insira suas credenciais no AWS CLI através do comando ```aws configure``` no terminal ou alterando no arquivo ```credentials``` na pasta C:/%userprofile%/.aws
+3. Crie um cluster EKS com um Grupo de Nós associado a uma VPC 
+
+   2. NO CONSOLE: É possível criar a VPC, o Cluster e Grupo de Nós manualmente
+   3. PROGRAMATICAMENTE: utilizando o arquivo aws-subnet-eks.yaml na pasta infra-kubernetes através do comando ```eksctl create cluster -f aws-subnet-eks.yaml``` no terminal
+
+
+    * Observação: o tamanho mínimo das máquinas deve ser t3.medium
+4. Utilize o comando ```aws eks --region {nome-da-regiao}  update-kubeconfig --name {nome-do-cluster}``` para adicionar o cluster criado aos cluster autenticados
+5. (opcional) Verifique a conexão com o cluster executando o comando ```k9s``` no terminal. O context e cluster estarão com o arn do cluster criado na AWS ("Context: arn:aws:eks:...")
+6. (opcional) Caso deseje conferir informações sobre a rede do cluster, execute o comando ```aws eks describe-cluster --name cluster-teste-1 --region us-east-1 --query cluster.resourcesVpcConfig``` no terminal
+7. Execute primeiramente o comando ```kubectl apply -f mongo-All.yaml``` para subir os componentes do pod do Mongo
+8. Execute o comando ```kubectl apply -f manifest.yaml``` para subir os componentes do pod da aplicação
+9. (opcional) Verifique os pods sendo executados através do comando ```k9s``` no PowerShell
+10. Será criado um loadbalancer para a Service da aplicação. Obtenha o DNS dele para realizar chamadas para a API. Ele possui o formato ````{sequencia-numerica}.{regiao}.elb.amazonaws.com````
+12. Para chamar o swagger da aplicação e ver os endpoints disponíveis, acesse ```http://{DNS-Load-Balancer}/swagger-ui/index.html```
+13. Caso queira remover os serviços em execução, delete os serviços em execução na nuvem
 
 ## Versioning
 
