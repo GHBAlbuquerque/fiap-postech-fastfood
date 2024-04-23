@@ -177,12 +177,13 @@ Faça o download ou clone este projeto e abra em uma IDE (preferencialmente Inte
 4. Utilize o comando ```aws eks --region {nome-da-regiao}  update-kubeconfig --name {nome-do-cluster}``` para adicionar o cluster criado aos cluster autenticados
 5. (opcional) Verifique a conexão com o cluster executando o comando ```k9s``` no terminal. O context e cluster estarão com o arn do cluster criado na AWS ("Context: arn:aws:eks:...")
 6. (opcional) Caso deseje conferir informações sobre a rede do cluster, execute o comando ```aws eks describe-cluster --name cluster-teste-1 --region us-east-1 --query cluster.resourcesVpcConfig``` no terminal
-7. Execute primeiramente o comando ```kubectl apply -f mongo-All.yaml``` para subir os componentes do pod do Mongo
-8. Execute o comando ```kubectl apply -f manifest.yaml``` para subir os componentes do pod da aplicação
-9. (opcional) Verifique os pods sendo executados através do comando ```k9s``` no PowerShell
-10. Será criado um loadbalancer para a Service da aplicação. Obtenha o DNS dele para realizar chamadas para a API. Ele possui o formato ````{sequencia-numerica}.{regiao}.elb.amazonaws.com````
-11. Para chamar o swagger da aplicação e ver os endpoints disponíveis, acesse ```http://{DNS-Load-Balancer}/swagger-ui/index.html```
-12. Caso queira remover os serviços em execução, delete os serviços na nuvem
+7. Execute primeiramente o comando ```kubectl apply -f namespace.yaml``` para criar o namespace
+8. Execute em seguida o comando ```kubectl apply -f mongo-All.yaml``` para subir os componentes do pod do Mongo
+9. Execute o comando ```kubectl apply -f manifest.yaml``` para subir os componentes do pod da aplicação
+10. (opcional) Verifique os pods sendo executados através do comando ```k9s``` no PowerShell
+11. Será criado um loadbalancer para a Service da aplicação. Obtenha o DNS dele para realizar chamadas para a API. Ele possui o formato ````{sequencia-numerica}.{regiao}.elb.amazonaws.com````
+12. Para chamar o swagger da aplicação e ver os endpoints disponíveis, acesse ```http://{DNS-Load-Balancer}/swagger-ui/index.html```
+13. Caso queira remover os serviços em execução, delete os serviços na nuvem
 
 ## Versioning
 
