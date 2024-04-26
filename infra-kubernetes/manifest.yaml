@@ -45,7 +45,7 @@ metadata:
   name: fastfood-fiap-service
   namespace: fiap-pos-tech
 spec:
-  type: NodePort #ou LoadBalancer -> cria um classic LB
+  type: LoadBalancer #NodePort ou LoadBalancer -> cria um classic LB
   selector:
     app: fastfood-fiap
   ports:
