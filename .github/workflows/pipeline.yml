@@ -3,6 +3,7 @@ name: pipeline
 on:
   push:
 #    branches: [ main ]
+
 env:
   ECR_REPOSITORY: fiap-pos-tech-fastfood
   EKS_CLUSTER_NAME: eks_cluster_fiap_postech
