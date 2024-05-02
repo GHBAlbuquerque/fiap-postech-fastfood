@@ -17,7 +17,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: mvn '-Dtest=src.test.*Test' test
+      - run: |
+          cd src/test
+          mvn test
 
       - name: Generate JaCoCo Badge
         id: jacoco
