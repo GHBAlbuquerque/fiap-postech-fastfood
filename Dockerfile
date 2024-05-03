@@ -8,8 +8,8 @@ RUN chmod +x ./gradlew
 
 RUN ./gradlew build
 
-COPY build/libs/*.jar /app/api.jar
+COPY . .
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "api.jar"]
+CMD ["java", "-jar", "build/libs/fastfood-0.0.1-SNAPSHOT.jar"]
