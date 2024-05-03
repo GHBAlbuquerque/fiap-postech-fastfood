@@ -11,16 +11,15 @@ env:
 jobs:
   unit-test:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
 
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - run: ./gradlew test
+      - run: |
+          chmod +x ./gradlew
+          ./gradlew test
 
       - name: Generate JaCoCo Badge
         id: jacoco
