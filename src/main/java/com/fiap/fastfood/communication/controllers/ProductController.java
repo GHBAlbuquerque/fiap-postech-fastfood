@@ -8,6 +8,8 @@ import com.fiap.fastfood.common.exceptions.custom.EntityNotFoundException;
 import com.fiap.fastfood.common.interfaces.gateways.ProductGateway;
 import com.fiap.fastfood.common.interfaces.usecase.ProductUseCase;
 import com.fiap.fastfood.core.entity.ProductTypeEnum;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +31,13 @@ public class ProductController {
         this.useCase = productUseCase;
     }
 
-    @PostMapping
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error"),
+    })
+    @PostMapping(produces="application/json", consumes="application/json")
     public ResponseEntity<BaseProductResponse> createProduct(
             @Valid @RequestBody CreateProductRequest request
     ) {
@@ -40,7 +48,13 @@ public class ProductController {
         return ResponseEntity.created(URI.create(product.getId())).body(ProductBuilder.toResponse(product));
     }
 
-    @PutMapping("/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error"),
+    })
+    @PutMapping(value="/{id}", produces="application/json", consumes="application/json")
     public ResponseEntity<BaseProductResponse> updateProduct(
             @PathVariable String id,
             @RequestBody UpdateProductRequest request
@@ -53,14 +67,26 @@ public class ProductController {
         return ResponseEntity.ok(ProductBuilder.toResponse(newProduct));
     }
 
-    @DeleteMapping("/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error"),
+    })
+    @DeleteMapping(value = "/{id}", produces="application/json", consumes="application/json")
     public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
         useCase.deleteProduct(id, gateway);
 
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error"),
+    })
+    @GetMapping(produces="application/json", consumes="application/json")
     public ResponseEntity<List<BaseProductResponse>> findProduct(
             @RequestParam ProductTypeEnum category
     ) {

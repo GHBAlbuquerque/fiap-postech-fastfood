@@ -8,6 +8,8 @@ import com.fiap.fastfood.common.exceptions.custom.AlreadyRegisteredException;
 import com.fiap.fastfood.common.exceptions.custom.EntityNotFoundException;
 import com.fiap.fastfood.common.interfaces.gateways.ClientGateway;
 import com.fiap.fastfood.common.interfaces.usecase.ClientUseCase;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +27,13 @@ public class ClientController {
         this.useCase = clientUseCase;
     }
 
-    @PostMapping
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error"),
+    })
+    @PostMapping(produces="application/json", consumes="application/json")
     public ResponseEntity<RegisterClientResponse> registerClient(
             @RequestBody RegisterClientRequest request
     ) throws AlreadyRegisteredException {
@@ -39,7 +47,13 @@ public class ClientController {
 
     }
 
-    @GetMapping
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error"),
+    })
+    @GetMapping(produces="application/json", consumes="application/json")
     public ResponseEntity<GetClientResponse> getClientByCpf(@RequestParam(required = true) String cpf)
             throws EntityNotFoundException {
 
