@@ -185,6 +185,12 @@ Faça o download ou clone este projeto e abra em uma IDE (preferencialmente Inte
 12. Para chamar o swagger da aplicação e ver os endpoints disponíveis, acesse ```http://{DNS-Load-Balancer}/swagger-ui/index.html```
 13. Caso queira remover os serviços em execução, delete os serviços na nuvem
 
+### 3) Rodando com CICD e infra descentralizada
+
+### 💿 Getting started - Rodando em cluster kubernetes + Load balancer + Api Gateway na AWS
+
+TBD
+
 ## Versioning
 
 1.0.0.0
