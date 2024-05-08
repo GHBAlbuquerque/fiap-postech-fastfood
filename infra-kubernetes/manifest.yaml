@@ -14,8 +14,11 @@ spec:
         app: fastfood-fiap
     spec:
       containers:
-        - name: fastfood-fiap-api
-          image: ghbalbuquerque/fastfood-fiap-api:latest
+#        - name: fastfood-fiap-api
+#          image: ghbalbuquerque/fastfood-fiap-api:latest # Dockerhub
+        - name: fiap-pos-tech-fastfood
+          image: 067184771399.dkr.ecr.us-east-1.amazonaws.com/fiap-pos-tech-fastfood #pegar uri do repositório ECR
+          imagePullPolicy: Always
           resources:
             requests:
               cpu: "200m"  # Requisição de CPU inicial
