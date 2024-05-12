@@ -14,8 +14,11 @@ spec:
         app: fastfood-fiap
     spec:
       containers:
-        - name: fastfood-fiap-api
-          image: ghbalbuquerque/fastfood-fiap-api:latest
+        - name: fiap-pos-tech-fastfood
+          image: 067184771399.dkr.ecr.us-east-1.amazonaws.com/fiap-pos-tech-fastfood #pegar uri do repositório ECR
+          imagePullPolicy: Always
+          #        - name: fastfood-fiap-api
+          #          image: ghbalbuquerque/fastfood-fiap-api:latest # Dockerhub
           resources:
             requests:
               cpu: "200m"  # Requisição de CPU inicial
@@ -29,15 +32,15 @@ spec:
           ports:
             - containerPort: 8080
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8080
-              httpHeaders:
-                - name: Check-Health-Header
-                  value: "application-up"
-            initialDelaySeconds: 120
-            periodSeconds: 60
+#          livenessProbe:
+#            httpGet:
+#              path: /actuator/health
+#              port: 8080
+#              httpHeaders:
+#                - name: Check-Health-Header
+#                  value: "application-up"
+#            initialDelaySeconds: 120
+#            periodSeconds: 60
 ---
 apiVersion: v1
 kind: Service
@@ -45,13 +48,15 @@ metadata:
   name: fastfood-fiap-service
   namespace: fiap-pos-tech
 spec:
-  type: LoadBalancer
+  type: NodePort #NodePort ou LoadBalancer ≥ cria um classic LB
   selector:
     app: fastfood-fiap
   ports:
     - protocol: TCP
       port: 80
       targetPort: 8080
+      nodePort: 30007
+
 
 
 

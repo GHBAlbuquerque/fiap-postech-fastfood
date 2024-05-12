@@ -1,4 +1,4 @@
-FROM gradle:7.6.3-jdk17-alpine
+FROM gradle:7.6.4-jdk17-alpine
 
 WORKDIR /app
 
@@ -7,6 +7,7 @@ USER root
 RUN chown -R gradle /app
 USER gradle
 
+RUN chmod +x ./gradlew
 RUN ./gradlew clean build
 
 COPY src ./src
