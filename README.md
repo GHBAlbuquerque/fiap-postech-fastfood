@@ -6,7 +6,10 @@ Projeto realizado para a Fase 3 da Pós-Graduação de Arquitetura de Sistemas d
 ### 👨‍🏫 Grupo
 
 Integrantes:
+- Diego S. Silveira (RM352891)
 - Giovanna H. B. Albuquerque (RM352679)
+- Kelvin Vieira (RM352728)
+- Wellington Vieira (RM352970)
 
 ### 📍 DDD
 
