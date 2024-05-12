@@ -1,15 +1,12 @@
 # 🚀 FIAP : Challenge Pós-Tech Software Architecture
 ## 🍔 Projeto Fast Food | Arquitetura Limpa
 
-Projeto realizado para a Fase 2 da Pós-Graduação de Arquitetura de Sistemas da FIAP. O sistema deste projeto foi construído utilizando Arquitetura Limpa como ensinado no módulo, para estudar este padrão de uso difundido no mercado.
+Projeto realizado para a Fase 3 da Pós-Graduação de Arquitetura de Sistemas da FIAP. O sistema deste projeto foi construído utilizando componentes AWS, Kubernetes e Arquitetura Limpa como ensinado no curso.
 
 ### 👨‍🏫 Grupo
 
 Integrantes:
-- Diego S. Silveira (RM352891)
 - Giovanna H. B. Albuquerque (RM352679)
-- Kelvin Vieira (RM352728)
-- Wellington Vieira (RM352970)
 
 ### 📍 DDD
 
@@ -48,9 +45,12 @@ Solução arquitetônica realizada:
 
 ![](misc/fiap-fastfood-architecture-kubernetes-kubernetes.drawio.svg)
 
-Solução arquitetônica realizada (Cloud AWS):
+Solução arquitetônica realizada (Cloud AWS) apenas com EKS:
 
 ![](misc/fiap-fastfood-architecture-kubernetes-eks.drawio.svg)
+
+Solução arquitetônica realizada (Cloud AWS) completa:
+![](misc/sol_fase_3.drawio.svg)
 
 
 ### 💻 Tecnologias
@@ -79,7 +79,7 @@ Tecnologias utilizadas:
 
 ## 🎬 Como executar este projeto?
 
-### 1) Rodando com Docker
+### 1) FASE 1 - Rodando com Docker
 
 ### 💿 Getting started - Rodando com docker-compose
 
@@ -116,7 +116,7 @@ Faça o download ou clone este projeto e abra em uma IDE (preferencialmente Inte
 7. Para chamar os endpoints, você pode ver as rotas no link ```http://localhost:8080/swagger-ui/index.html```
 
 ###
-### 2) Rodando com Kubernetes
+### 2) FASE 2 - Rodando com Kubernetes
 
 ### 💿 Getting started - Rodando em cluster kubernetes local
 
@@ -185,11 +185,59 @@ Faça o download ou clone este projeto e abra em uma IDE (preferencialmente Inte
 12. Para chamar o swagger da aplicação e ver os endpoints disponíveis, acesse ```http://{DNS-Load-Balancer}/swagger-ui/index.html```
 13. Caso queira remover os serviços em execução, delete os serviços na nuvem
 
-### 3) Rodando com CICD e infra descentralizada
+### 3) FASE 3 - Rodando com CICD e infra descentralizada
+
+Faça o download ou clone este projeto e abra em uma IDE (preferencialmente IntelliJ).
+É preciso ter:
+
+    - Uma conta cadastrada na Cloud AWS
 
 ### 💿 Getting started - Rodando em cluster kubernetes + Load balancer + Api Gateway na AWS
 
-TBD
+Antes de iniciar:
+1. Criar manualmente bucket s3 na conta com para guardar os states do terraform (utilizei o nome ‘terraform-state-backend-postech-new’)
+2. Criar manualmente repositório ECR na conta com o nome ‘fiap-pos-tech-fastfood’
+3. Caso não esteja usando AWS Academy, é necessário criar também Policies e Roles para os serviços. Esta etapa não foi feita na entrega da Pós e foram usadas as Roles padrão do laboratório.
+
+Passo-a-passo:
+1. Obtenha credenciais de aws_access_key_id, aws_secret_access_key e aws_session_token da AWS Lab na AWS Academy ou na sua conta AWS.
+2. Altere credenciais nos secrets para actions dos repositórios
+3. Altere credenciais no arquivo .credentials na pasta .aws no seu computador
+4. Ajuste variáveis no repositório da lambda (https://github.com/GHBAlbuquerque/fiap-postech-lambda-auth-fastfood)
+    1. Lambda Role
+    2. Bucket armazenador dos states terraform -> arquivo main.tf
+5. Suba a lambda via CICD do repositório
+6. Ajuste variáveis no repositório de infra (https://github.com/GHBAlbuquerque/fiap-postech-infra-fastfood)
+    1. AccountId
+    2. Nome da Lambda
+    3. Arn da Lambda criada para autenticação
+    4. Role Arn
+    5. VPC Id
+    6. VPC CIDR
+    7. subnets
+    8. Bucket armazenador dos states terraform -> arquivo main.tf
+7. Suba infraestrutura via CICD do repositório (Api Gateway, LoadBalancer, Secuirty Group, EKS Cluster)
+8.  Ajuste Security Group gerado automaticamente pelo cluster para liberar tráfego da VPC (ver CIDR) e do Security Group usado no ALB (id). Liberar ‘Todo o Tráfego’.
+9. Ajuste bug do autorizador do API Gateway que monstra erro 500 e mensagem ‘null’:
+    1. Ir em ‘Autorizadores’
+    2. Selecionar ‘lambda_authorizer_cpf’ e editar
+    3. Escolher a função lambda da lista
+    4. Salvar alterações
+    5. Realizar deploy da API no estágio
+10. Teste conexão chamando o DNS do loadbalancer na url: ``{DNS Load Balancer}/actuator/health``
+11. Obtenha endereço do stage do API Gateway no console para realizar chamadas
+    1. Ir em API Gateway > api_gateway_fiap_postech > estágios > pegar o valor Invoke Url
+12. Ajustar URI do repositório remoto ECR AWS (accountid e region) no repositório da aplicação, arquivo infra-kubernetes/manifest.yaml (https://github.com/GHBAlbuquerque/fiap-postech-fastfood)
+13. Suba a aplicação via CICD do repositório
+14. Verifique componentes em execução na AWS
+15. Obtenha url do estágio no API Gateway para realizar chamadas -> API Gateway / APIs / api_gateway_fiap_postech (xxxxx) / Estágios : Invocar URL
+16. Para chamar o swagger da aplicação e ver os endpoints disponíveis, acesse: {{gateway_url}}/swagger-ui/index
+17. Para realizar chamadas aos endpoints http do gateway, utilize os seguintes headers:
+    1. cpf_cliente -> valor cadastrado previamente: 93678719023
+    2. senha_cliente -> valor cadastrado previamente: FIAPauth123_
+
+Ex. de chamada:
+![](misc/chamada_gateway_exemplo.png)
 
 ## Versioning
 
