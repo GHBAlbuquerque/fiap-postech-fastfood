@@ -28,7 +28,7 @@ spec:
               memory: "1Gi"
           env:
             - name: DB_HOST
-              value: mongodb-service
+              value: "mongodb+srv://admin:FIAPauth123_@db-fiap-fastfood.udr9jzk.mongodb.net/?retryWrites=true&w=majority&appName=db-fiap-fastfood"
           ports:
             - containerPort: 8080
               protocol: TCP
