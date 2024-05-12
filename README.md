@@ -233,7 +233,7 @@ Passo-a-passo:
    5. Realizar deploy da API no estágio
 10. Teste conexão chamando o DNS do loadbalancer na url: ``{DNS Load Balancer}/actuator/health``
 11. Obtenha endereço do stage do API Gateway no console para realizar chamadas
-   1. Vá em API Gateway > api_gateway_fiap_postech > estágios > pegar o valor Invoke Url
+    1. Vá em API Gateway > api_gateway_fiap_postech > estágios > pegar o valor Invoke Url
 12. Abra o **Repositório da App**
 13. Ajuste URI do repositório remoto ECR AWS (accountid e region) no repositório da aplicação, arquivo infra-kubernetes/manifest.yaml
 14. Suba a aplicação via CICD do repositório
@@ -241,8 +241,8 @@ Passo-a-passo:
 16. Obtenha url do estágio no API Gateway para realizar chamadas -> API Gateway / APIs / api_gateway_fiap_postech (xxxxx) / Estágios : Invocar URL
 17. Para chamar o swagger da aplicação e ver os endpoints disponíveis, acesse: {{gateway_url}}/swagger-ui/index
 18. Para realizar chamadas aos endpoints http do gateway, utilize os seguintes headers:
-   1. cpf_cliente -> valor cadastrado previamente: 93678719023
-   2. senha_cliente -> valor cadastrado previamente: FIAPauth123_
+    1. cpf_cliente -> valor cadastrado previamente: 93678719023
+    2. senha_cliente -> valor cadastrado previamente: FIAPauth123_
 
 Ex. de chamada:
 ![](misc/chamada_gateway_exemplo.png)
