@@ -1,5 +1,5 @@
 # 🚀 FIAP : Challenge Pós-Tech Software Architecture
-## 🍔 Projeto Fast Food | Arquitetura Limpa
+## 🍔 Projeto Fast Food | Aplicação para Pedido de Comida
 
 Projeto realizado para a Fase 3 da Pós-Graduação de Arquitetura de Sistemas da FIAP. O sistema deste projeto foi construído utilizando componentes AWS, Kubernetes e Arquitetura Limpa como ensinado no curso.
 
