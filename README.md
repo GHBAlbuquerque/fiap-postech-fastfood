@@ -92,7 +92,7 @@ Faça o download ou clone este projeto. É preciso ter:
 
 🚨 Passo-a-passo:
 
-1. Abra o projeto no seu explorador de arquivos 
+1. Abra o projeto no seu explorador de arquivos
 2. Migre para a pasta infra-docker e, no terminal, execute o comando: ```docker-compose up --build```
 3. Um container com a aplicação e um banco de dados MongoDB serão inicializados nas portas 8080 e 27017 respectivamente
    1. Se possuir Docker Desktop, veja os containers rodando nele.
@@ -114,9 +114,12 @@ Faça o download ou clone este projeto e abra em uma IDE (preferencialmente Inte
 2. Importe um projeto como um projeto Gradle (botão direito em ```src > build.gradle > import Gradle Project```)
 3. Aguarde a instalação das dependências
 4. Migre para a pasta infra-docker e, no terminal, execute o comando: ```docker-compose -f docker-compose-local.yaml up```
-5. Um container com um banco de dados MongoDB será inicializado na porta 27017
-6. Abra a classe FastFoodApplication e execute a aplicação
-7. Para chamar os endpoints, você pode ver as rotas no link ```http://localhost:8080/swagger-ui/index.html```
+5. Edite as configurçòes para rodar o projeto, adicionando a variável "SPRING_PROFILES_ACTIVE=local" para usar o application-properties.local
+6. No arquivo application.properties e no arquivo application-local.properties, comente a linha 'spring.data.mongodb.uri'
+7. Descomente as propriedades do mongo no arquivo application-local.properties
+8. Um container com um banco de dados MongoDB será inicializado na porta 27017
+9. Abra a classe FastFoodApplication e execute a aplicação
+10. Para chamar os endpoints, você pode ver as rotas no link ```http://localhost:8080/swagger-ui/index.html```
 
 ###
 ### 2) FASE 2 - Rodando com Kubernetes
@@ -223,9 +226,10 @@ Passo-a-passo:
 6. Obtenha a string de conexão do banco de dados na nuvem Atlas e altere na aplicação, no **Repositório da App**, no arquivo /infra-kubernetes/manifest.yaml - env DB_HOST
 
 > Subindo a Lambda de Autenticação
-1. Ajuste variáveis  e segredos de Actions para CI/CD no **Repositório da Lambda de Autenticação**
+1. Ajuste variáveis e segredos de Actions para CI/CD no **Repositório da Lambda de Autenticação**
    1. Lambda Role
    2. Bucket armazenador dos states terraform -> arquivo main.tf
+   3. ClientId do cognito, no arquivo lambda_auth.py (client_id)
 2. Suba a lambda via CICD do repositório
 
 > Subindo a Infraestrutura do projeto
@@ -261,6 +265,12 @@ Passo-a-passo:
 8. Para realizar chamadas aos endpoints http do gateway, utilize os seguintes headers:
    1. cpf_cliente -> valor cadastrado previamente: 93678719023
    2. senha_cliente -> valor cadastrado previamente: FIAPauth123_
+
+> (opcional) Criar usuário e utilizar
+1. Crie um usuário utilizando o endpoint POST '/clients'
+2. O username será o cpf informado
+3. Confirme a criação do usuário para permitir o uso em endpoints através de uma requisição para o endpoint POST '/clients/confirmation'
+4. Utilize o cpf e senha cadastrados para fazer solicitações como orientado acima
 
 Ex. de chamada:
 ![](misc/chamada_gateway_exemplo.png)

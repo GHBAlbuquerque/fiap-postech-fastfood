@@ -5,7 +5,7 @@ db = db.getSiblingDB('db-fiap-fastfood');
 db.createUser(
     {
         user: "admin",
-        pwd: "FIAPauth123_",
+        pwd: "password",
         roles: [
             {
                 role: "readWrite",

@@ -20,6 +20,7 @@ public class PersonORM {
     private LocalDate birthday;
     private String cpf;
     private String email;
+    private String password;
     private LocalDateTime creationTimestamp;
     private LocalDateTime updateTimestamp;
 

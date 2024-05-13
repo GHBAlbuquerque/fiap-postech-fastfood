@@ -15,7 +15,8 @@ public class ClientBuilder {
                 .setBirthday(request.getBirthday())
                 .setCpf(request.getCpf())
                 .setCreationTimestamp(LocalDateTime.now())
-                .setEmail(request.getEmail());
+                .setEmail(request.getEmail())
+                .setPassword(request.getPassword());
     }
 
     public static GetClientResponse fromDomainToResponse(Client client) {
@@ -36,7 +37,8 @@ public class ClientBuilder {
                 .setBirthday(orm.getBirthday())
                 .setCpf(orm.getCpf())
                 .setCreationTimestamp(LocalDateTime.now())
-                .setEmail(orm.getEmail());
+                .setEmail(orm.getEmail())
+                .setPassword(orm.getPassword());
     }
 
     public static ClientORM fromDomainToOrm(Client client) {
@@ -46,6 +48,7 @@ public class ClientBuilder {
                 .setBirthday(client.getBirthday())
                 .setCpf(client.getCpf())
                 .setEmail(client.getEmail())
+                .setPassword(client.getPassword())
                 .setCreationTimestamp(client.getCreationTimestamp())
                 .setUpdateTimestamp(client.getUpdateTimestamp());
     }

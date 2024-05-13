@@ -5,7 +5,7 @@ services:
     image: mongo:latest
     environment:
       MONGO_INITDB_USERNAME: admin
-      MONGO_INITDB_PASSWORD: FIAPauth123_
+      MONGO_INITDB_PASSWORD: password
     ports:
       - "27017:27017"
     volumes:

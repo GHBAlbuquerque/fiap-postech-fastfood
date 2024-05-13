@@ -34,6 +34,14 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '3.2.0'
+	implementation group: 'com.amazonaws', name: 'aws-java-sdk-cognitoidp', version: '1.12.720'
+	implementation group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.12.720'
+	implementation group: 'com.amazonaws', name: 'aws-java-sdk-core', version: '1.12.720'
+	implementation group: 'software.amazon.awssdk', name: 'cognitoidentity', version: '2.25.50'
+	implementation group: 'software.amazon.awssdk', name: 'cognitoidentityprovider', version: '2.25.50'
+
+
+
 }
 
 tasks.named('test') {
