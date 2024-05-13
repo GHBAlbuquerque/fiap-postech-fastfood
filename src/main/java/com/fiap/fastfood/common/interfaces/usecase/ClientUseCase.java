@@ -6,7 +6,6 @@ import com.fiap.fastfood.common.exceptions.custom.IdentityProviderRegistrationEx
 import com.fiap.fastfood.common.interfaces.gateways.AuthenticationGateway;
 import com.fiap.fastfood.common.interfaces.gateways.ClientGateway;
 import com.fiap.fastfood.core.entity.Client;
-import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 
 public interface ClientUseCase {
     Client getClientByCpf(String cpf, ClientGateway clientGateway) throws EntityNotFoundException;
@@ -15,4 +14,6 @@ public interface ClientUseCase {
             throws AlreadyRegisteredException, IdentityProviderRegistrationException;
 
     Boolean validateCpfInUse(String cpf, ClientGateway clientGateway);
+
+    Boolean confirmClientSignUp(String cpf, String code, AuthenticationGateway authenticationGateway) throws IdentityProviderRegistrationException;
 }

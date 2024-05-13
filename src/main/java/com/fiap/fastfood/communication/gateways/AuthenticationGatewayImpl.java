@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.CognitoIdentityProviderException;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.ConfirmSignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.SignUpRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AttributeType;
 import com.fiap.fastfood.common.interfaces.gateways.AuthenticationGateway;
@@ -20,10 +21,10 @@ import java.util.ArrayList;
 @Component
 public class AuthenticationGatewayImpl implements AuthenticationGateway {
 
-    @Value("aws.cognito.clientid")
+    @Value("${aws.cognito.clientid}")
     private String identityProviderClientId;
 
-    @Value("aws.cognito.clientSecretKey")
+    @Value("${aws.cognito.clientSecretKey}")
     private String identityProviderClientSecretKey;
 
     private final CognitoIdentityProviderClient identityProviderClient;
@@ -51,41 +52,39 @@ public class AuthenticationGatewayImpl implements AuthenticationGateway {
         attrs.add(attributeType);
 
         try {
-            String secretVal = calculateSecretHash(identityProviderClientId, identityProviderClientSecretKey, userName);
 
             SignUpRequest signUpRequest = SignUpRequest.builder()
                     .userAttributes(attrs)
                     .username(userName)
                     .clientId(identityProviderClientId)
                     .password(password)
-                    .secretHash(secretVal)
                     .build();
 
-            var signUpResponse = identityProviderClient.signUp(signUpRequest);
+            identityProviderClient.signUp(signUpRequest);
+            System.out.println(userName + " was registered.");
 
-            return signUpResponse.userConfirmed();
+            return true;
 
         } catch (CognitoIdentityProviderException e) {
             throw new IdentityProviderRegistrationException(String.valueOf(e.statusCode()), e.getMessage());
-        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new IdentityProviderRegistrationException(String.valueOf(HttpStatus.BAD_REQUEST.value()), e.getMessage());
         }
     }
 
-    private String calculateSecretHash(String userPoolClientId,
-                                       String userPoolClientSecret,
-                                       String userName)
+    public Boolean confirmSignUp(String userName, String code) throws IdentityProviderRegistrationException {
+        try {
+            ConfirmSignUpRequest signUpRequest = ConfirmSignUpRequest.builder()
+                    .clientId(identityProviderClientId)
+                    .confirmationCode(code)
+                    .username(userName)
+                    .build();
 
-            throws NoSuchAlgorithmException, InvalidKeyException {
+            identityProviderClient.confirmSignUp(signUpRequest);
+            System.out.println(userName + " was confirmed.");
 
-        var signingKey = new SecretKeySpec(
-                userPoolClientSecret.getBytes(StandardCharsets.UTF_8),
-                HMAC_SHA256_ALGORITHM);
+            return true;
 
-        var mac = Mac.getInstance(HMAC_SHA256_ALGORITHM);
-        mac.init(signingKey);
-        mac.update(userName.getBytes(StandardCharsets.UTF_8));
-        byte[] rawHmac = mac.doFinal(userPoolClientId.getBytes(StandardCharsets.UTF_8));
-        return java.util.Base64.getEncoder().encodeToString(rawHmac);
+        } catch (CognitoIdentityProviderException e) {
+            throw new IdentityProviderRegistrationException(String.valueOf(e.statusCode()), e.getMessage());
+        }
     }
 }

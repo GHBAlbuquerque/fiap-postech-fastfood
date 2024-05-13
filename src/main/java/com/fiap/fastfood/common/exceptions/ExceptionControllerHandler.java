@@ -70,15 +70,15 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ExceptionDetails> resourceException(IdentityProviderRegistrationException ex, WebRequest request) {
 
         final var message = new ExceptionDetails(
-                "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400",
+                "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500",
                 "Error trying to register new user on Identity Provider",
                 ex.getCode(),
                 ex.getMessage(),
-                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 new Date(),
                 ex.getErrors());
 
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

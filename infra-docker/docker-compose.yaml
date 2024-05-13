@@ -9,7 +9,7 @@ services:
     image: mongo:latest
     environment:
       MONGO_INITDB_USERNAME: admin
-      MONGO_INITDB_PASSWORD: FIAPauth123_
+      MONGO_INITDB_PASSWORD: password
     ports:
       - "27017:27017"
     volumes:
@@ -28,6 +28,7 @@ services:
       - "8080:8080"
     environment:
       DB_HOST: mongo
+      SPRING_PROFILES_ACTIVE: "local"
     depends_on:
       - mongo
     networks:

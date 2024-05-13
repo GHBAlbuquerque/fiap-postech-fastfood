@@ -9,4 +9,6 @@ public interface AuthenticationGateway {
                                      String email) throws IdentityProviderRegistrationException;
 
 
+    Boolean confirmSignUp(String userName,
+                          String code) throws IdentityProviderRegistrationException;
 }

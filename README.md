@@ -93,10 +93,11 @@ Faça o download ou clone este projeto. É preciso ter:
 🚨 Passo-a-passo:
 
 1. Abra o projeto no seu explorador de arquivos 
-2. Migre para a pasta infra-docker e, no terminal, execute o comando: ```docker-compose up --build```
-3. Um container com a aplicação e um banco de dados MongoDB serão inicializados nas portas 8080 e 27017 respectivamente
+2. no arquivo application.properties, comente a linha 'spring.data.mongodb.uri'
+3. Migre para a pasta infra-docker e, no terminal, execute o comando: ```docker-compose up --build```
+4. Um container com a aplicação e um banco de dados MongoDB serão inicializados nas portas 8080 e 27017 respectivamente
    1. Se possuir Docker Desktop, veja os containers rodando nele.
-4. Para chamar os endpoints, você pode ver as rotas no link ```http://localhost:8080/swagger-ui/index.html```
+5. Para chamar os endpoints, você pode ver as rotas no link ```http://localhost:8080/swagger-ui/index.html```
 
 
 ### 💿 Getting started - Rodando localmente com docker
@@ -114,9 +115,11 @@ Faça o download ou clone este projeto e abra em uma IDE (preferencialmente Inte
 2. Importe um projeto como um projeto Gradle (botão direito em ```src > build.gradle > import Gradle Project```)
 3. Aguarde a instalação das dependências
 4. Migre para a pasta infra-docker e, no terminal, execute o comando: ```docker-compose -f docker-compose-local.yaml up```
-5. Um container com um banco de dados MongoDB será inicializado na porta 27017
-6. Abra a classe FastFoodApplication e execute a aplicação
-7. Para chamar os endpoints, você pode ver as rotas no link ```http://localhost:8080/swagger-ui/index.html```
+5. Edite as configurçòes para rodar o projeto, adicionando a variável "SPRING_PROFILES_ACTIVE=local" para usar o application-properties.local
+6. No arquivo application.properties, comente a linha 'spring.data.mongodb.uri'
+7. Um container com um banco de dados MongoDB será inicializado na porta 27017
+8. Abra a classe FastFoodApplication e execute a aplicação
+9. Para chamar os endpoints, você pode ver as rotas no link ```http://localhost:8080/swagger-ui/index.html```
 
 ###
 ### 2) FASE 2 - Rodando com Kubernetes

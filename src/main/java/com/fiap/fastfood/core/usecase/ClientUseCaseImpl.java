@@ -27,13 +27,11 @@ public class ClientUseCaseImpl implements ClientUseCase {
             );
         }
 
-        var savedClient = clientGateway.saveClient(client);
-
         authenticationGateway.createUserAuthentication(client.getCpf(),
-                client.getEmail(),
+                "FIAPauth123_",
                 client.getEmail());
 
-        return savedClient;
+        return clientGateway.saveClient(client);
     }
 
     @Override
@@ -56,5 +54,11 @@ public class ClientUseCaseImpl implements ClientUseCase {
         final var clientUsingCpf = clientGateway.getClientByCpf(cpf);
 
         return clientUsingCpf != null;
+    }
+
+    @Override
+    public Boolean confirmClientSignUp(String cpf, String code, AuthenticationGateway authenticationGateway)
+            throws IdentityProviderRegistrationException {
+        return authenticationGateway.confirmSignUp(cpf, code);
     }
 }
