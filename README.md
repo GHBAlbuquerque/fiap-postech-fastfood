@@ -269,12 +269,13 @@ Passo-a-passo:
 > (opcional) Criar usuário e utilizar
 1. Crie um usuário utilizando o endpoint POST '/clients'
 2. O username será o cpf informado
-3. Confirme a criação do usuário para permitir o uso em endpoints através de uma requisição para o endpoint POST '/clients/confirmation'
-4. Utilize o cpf e senha cadastrados para fazer solicitações como orientado acima
+3. Pegue o código de verificação enviado para o e-mail
+4. Confirme a criação do usuário para permitir o uso em endpoints: envie uma requisição para o endpoint POST '/clients/confirmation' (utilizando cpf e o código)
+5. Utilize o cpf e senha cadastrados para fazer solicitações como orientado acima
 
 Ex. de chamada:
 ![](misc/chamada_gateway_exemplo.png)
 
 ## Versioning
 
-1.0.0.0
+3.0.0.0
