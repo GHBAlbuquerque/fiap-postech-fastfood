@@ -2,15 +2,20 @@ package com.fiap.fastfood.core.usecase;
 
 import com.fiap.fastfood.common.exceptions.custom.AlreadyRegisteredException;
 import com.fiap.fastfood.common.exceptions.custom.EntityNotFoundException;
+import com.fiap.fastfood.common.exceptions.custom.IdentityProviderRegistrationException;
+import com.fiap.fastfood.common.interfaces.gateways.AuthenticationGateway;
 import com.fiap.fastfood.common.interfaces.gateways.ClientGateway;
 import com.fiap.fastfood.common.interfaces.usecase.ClientUseCase;
 import com.fiap.fastfood.core.entity.Client;
+import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 
 public class ClientUseCaseImpl implements ClientUseCase {
 
     @Override
-    public Client registerClient(Client client, ClientGateway clientGateway)
-            throws AlreadyRegisteredException {
+    public Client registerClient(Client client,
+                                 ClientGateway clientGateway,
+                                 AuthenticationGateway authenticationGateway)
+            throws AlreadyRegisteredException, IdentityProviderRegistrationException {
         final var cpfInUse = validateCpfInUse(client.getCpf(), clientGateway);
         final var validationResult = Client.validate(client, cpfInUse);
 
@@ -22,7 +27,13 @@ public class ClientUseCaseImpl implements ClientUseCase {
             );
         }
 
-        return clientGateway.saveClient(client);
+        var savedClient = clientGateway.saveClient(client);
+
+        authenticationGateway.createUserAuthentication(client.getCpf(),
+                client.getEmail(),
+                client.getEmail());
+
+        return savedClient;
     }
 
     @Override

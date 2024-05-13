@@ -4,16 +4,11 @@ import com.fiap.fastfood.common.interfaces.datasources.SpringDataMongoCheckoutRe
 import com.fiap.fastfood.common.interfaces.datasources.SpringDataMongoClientRepository;
 import com.fiap.fastfood.common.interfaces.datasources.SpringDataMongoOrderRepository;
 import com.fiap.fastfood.common.interfaces.datasources.SpringDataMongoProductRepository;
-import com.fiap.fastfood.common.interfaces.gateways.CheckoutGateway;
-import com.fiap.fastfood.common.interfaces.gateways.ClientGateway;
-import com.fiap.fastfood.common.interfaces.gateways.OrderGateway;
-import com.fiap.fastfood.common.interfaces.gateways.ProductGateway;
-import com.fiap.fastfood.communication.gateways.CheckoutGatewayImpl;
-import com.fiap.fastfood.communication.gateways.ClientGatewayImpl;
-import com.fiap.fastfood.communication.gateways.OrderGatewayImpl;
-import com.fiap.fastfood.communication.gateways.ProductGatewayImpl;
+import com.fiap.fastfood.common.interfaces.gateways.*;
+import com.fiap.fastfood.communication.gateways.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 
 @Configuration
 public class GatewayBeanDeclaration {
@@ -36,5 +31,10 @@ public class GatewayBeanDeclaration {
     @Bean
     public ProductGateway productGateway(SpringDataMongoProductRepository repository) {
         return new ProductGatewayImpl(repository);
+    }
+
+    @Bean
+    public AuthenticationGateway authenticationGateway(CognitoIdentityProviderClient cognitoIdentityProviderClient) {
+        return new AuthenticationGatewayImpl(cognitoIdentityProviderClient);
     }
 }
