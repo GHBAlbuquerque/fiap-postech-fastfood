@@ -266,6 +266,12 @@ Passo-a-passo:
    1. cpf_cliente -> valor cadastrado previamente: 93678719023
    2. senha_cliente -> valor cadastrado previamente: FIAPauth123_
 
+> (opcional) Criar usuário e utilizar
+1. Crie um usuário utilizando o endpoint POST '/clients'
+2. O username será o cpf informado
+3. Confirme a criação do usuário para permitir o uso em endpoints através de uma requisição para o endpoint POST '/clients/confirmation'
+4. Utilize o cpf e senha cadastrados para fazer solicitações como orientado acima
+
 Ex. de chamada:
 ![](misc/chamada_gateway_exemplo.png)
 
