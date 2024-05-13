@@ -13,4 +13,5 @@ public class RegisterClientRequest {
     private LocalDate birthday;
     private String cpf;
     private String email;
+    private String password;
 }

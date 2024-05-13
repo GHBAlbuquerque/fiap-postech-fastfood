@@ -28,7 +28,7 @@ public class ClientUseCaseImpl implements ClientUseCase {
         }
 
         authenticationGateway.createUserAuthentication(client.getCpf(),
-                "FIAPauth123_",
+                client.getPassword(),
                 client.getEmail());
 
         return clientGateway.saveClient(client);
