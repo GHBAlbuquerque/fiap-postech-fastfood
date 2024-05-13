@@ -226,9 +226,10 @@ Passo-a-passo:
 6. Obtenha a string de conexão do banco de dados na nuvem Atlas e altere na aplicação, no **Repositório da App**, no arquivo /infra-kubernetes/manifest.yaml - env DB_HOST
 
 > Subindo a Lambda de Autenticação
-1. Ajuste variáveis  e segredos de Actions para CI/CD no **Repositório da Lambda de Autenticação**
+1. Ajuste variáveis e segredos de Actions para CI/CD no **Repositório da Lambda de Autenticação**
    1. Lambda Role
    2. Bucket armazenador dos states terraform -> arquivo main.tf
+   3. ClientId do cognito, no arquivo lambda_auth.py (client_id)
 2. Suba a lambda via CICD do repositório
 
 > Subindo a Infraestrutura do projeto
