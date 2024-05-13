@@ -115,9 +115,11 @@ Faça o download ou clone este projeto e abra em uma IDE (preferencialmente Inte
 3. Aguarde a instalação das dependências
 4. Migre para a pasta infra-docker e, no terminal, execute o comando: ```docker-compose -f docker-compose-local.yaml up```
 5. Edite as configurçòes para rodar o projeto, adicionando a variável "SPRING_PROFILES_ACTIVE=local" para usar o application-properties.local
-6. Um container com um banco de dados MongoDB será inicializado na porta 27017
-7. Abra a classe FastFoodApplication e execute a aplicação
-8. Para chamar os endpoints, você pode ver as rotas no link ```http://localhost:8080/swagger-ui/index.html```
+6. No arquivo application.properties e no arquivo application-local.properties, comente a linha 'spring.data.mongodb.uri'
+7. Descomente as propriedades do mongo no arquivo application-local.properties
+8. Um container com um banco de dados MongoDB será inicializado na porta 27017
+9. Abra a classe FastFoodApplication e execute a aplicação
+10. Para chamar os endpoints, você pode ver as rotas no link ```http://localhost:8080/swagger-ui/index.html```
 
 ###
 ### 2) FASE 2 - Rodando com Kubernetes
