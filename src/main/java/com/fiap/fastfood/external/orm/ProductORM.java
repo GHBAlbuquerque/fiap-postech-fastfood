@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Builder
 @Data
-@Document
+@Document(collection = "Product")
 public class ProductORM {
 
     @MongoId
