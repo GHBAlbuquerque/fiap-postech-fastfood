@@ -17,6 +17,8 @@ public class Order {
 
     private String id;
 
+    private String clientId;
+
     private List<Item> items;
 
     private BigDecimal totalValue;
